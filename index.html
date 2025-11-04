@@ -362,48 +362,63 @@
         });
         
         // Función para manejar el clic en "Sí" CON FORMSUBMIT
-        btnSi.addEventListener('click', function() {
-            // Llenar el formulario automático
-            document.getElementById('formMessage').value = 
-                `¡Alguien aceptó ser tu duo después de ${noCount} intentos!\n\nFecha: ${new Date().toLocaleString()}`;
-            
-            // Enviar formulario automáticamente
-            document.getElementById('autoForm').submit();
-            
-            // Mostrar el número de intentos en el mensaje de éxito
-            attemptsCount.textContent = noCount;
-            
-            message.textContent = "¡Sabía que aceptarías! 💖";
-            message.classList.add('pulse');
-            
-            // Preparar la imagen antes de cambiar
-            currentImage.classList.add('image-loading');
-            currentImage.classList.remove('image-loaded');
-            
-            // Cambiar la imagen final
-            setTimeout(() => {
-                currentImage.src = finalImage;
-            }, 200);
-            
-            // Ocultar el botón "No"
-            btnNo.style.display = 'none';
-            
-            // Cambiar el texto del botón Sí
-            btnSi.textContent = "¡Enviado!";
-            btnSi.style.backgroundColor = "#ff6b81";
-            btnSi.disabled = true;
-            
-            // Mostrar mensaje de éxito
-            successMessage.style.display = 'block';
-            
-            // Crear más corazones
-            createHearts();
-            
-            // Opcional: Mostrar alerta de confirmación
-            setTimeout(() => {
-                alert(`¡Gracias por aceptar! Tu respuesta ha sido enviada. (Me costó ${noCount} intentos convencerte 😊)`);
-            }, 500);
-        });
+        // Función para manejar el clic en "Sí" 
+btnSi.addEventListener('click', function() {
+    // Mostrar el número de intentos en el mensaje de éxito
+    attemptsCount.textContent = noCount;
+    
+    message.textContent = "¡Sabía que aceptarías! 💖";
+    message.classList.add('pulse');
+    
+    // Preparar la imagen antes de cambiar
+    currentImage.classList.add('image-loading');
+    currentImage.classList.remove('image-loaded');
+    
+    // Cambiar la imagen final
+    setTimeout(() => {
+        currentImage.src = finalImage;
+    }, 200);
+    
+    // Ocultar el botón "No"
+    btnNo.style.display = 'none';
+    
+    // Cambiar el texto del botón Sí
+    btnSi.textContent = "¡Enviado!";
+    btnSi.style.backgroundColor = "#ff6b81";
+    btnSi.disabled = true;
+    
+    // Mostrar mensaje de éxito
+    successMessage.style.display = 'block';
+    
+    // Crear más corazones
+    createHearts();
+    
+    // Enviar el formulario SIN redirección usando Fetch API
+    const formData = new FormData();
+    formData.append('_subject', '¡Alguien aceptó ser tu duo!');
+    formData.append('message', `¡Alguien aceptó ser tu duo después de ${noCount} intentos!\n\nFecha: ${new Date().toLocaleString()}`);
+    formData.append('_captcha', 'false');
+    
+    fetch('https://formsubmit.co/ajax/carlosffcastillo57@gmail.com', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Formulario enviado exitosamente:', data);
+        // Opcional: Mostrar mensaje de confirmación
+        setTimeout(() => {
+            alert(`¡Gracias por aceptar! Tu respuesta ha sido enviada. (Me costó ${noCount} intentos convencerte 😊)`);
+        }, 500);
+    })
+    .catch(error => {
+        console.error('Error al enviar el formulario:', error);
+        // Aún así mostrar el mensaje de éxito aunque falle el envío
+        setTimeout(() => {
+            alert(`¡Gracias por aceptar! (Me costó ${noCount} intentos convencerte 😊)\n\nNota: El mensaje automático no se pudo enviar, pero te contactaré pronto.`);
+        }, 500);
+    });
+});
 
         // Precargar imágenes al iniciar
         window.addEventListener('load', function() {
