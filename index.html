@@ -254,7 +254,7 @@
             <h3>¡Perfecto! 🎉</h3>
             <p>Tu respuesta ha sido enviada automáticamente.</p>
             <p><strong>Intentos de convencerte: <span id="attemptsCount">0</span></strong></p>
-            <p>¡Te contactaré pronto para jugar! 🎮</p>
+            <p>¡Te contactaré pronto! 🎮</p>
         </div>
 
         <!-- Formulario oculto para FormSubmit -->
@@ -395,8 +395,8 @@ btnSi.addEventListener('click', function() {
     
     // Enviar el formulario SIN redirección usando Fetch API
     const formData = new FormData();
-    formData.append('_subject', '¡Alguien aceptó ser tu duo!');
-    formData.append('message', `¡Alguien aceptó ser tu duo después de ${noCount} intentos!\n\nFecha: ${new Date().toLocaleString()}`);
+    formData.append('_subject', '¡aceptó!');
+    formData.append('message', `¡aceptó ser tu novia después de ${noCount} intentos!\n\nFecha: ${new Date().toLocaleString()}`);
     formData.append('_captcha', 'false');
     
     fetch('https://formsubmit.co/ajax/carlosffcastillo57@gmail.com', {
